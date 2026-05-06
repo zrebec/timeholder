@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="sk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <meta name="theme-color" content="#1a1a2e">
+    <title>Príchod/Odchod</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+         <!-- LIVE TIME HEADER (NEW) -->
+        <div class="live-time-header">
+            <div class="live-time" id="liveTime">08:00:00</div>
+            <div class="live-date" id="liveDate">Piatok, 5. December 2025</div>
+        </div>
+
+        <!-- FLIP CLOCK -->
+        <div class="clock-container">
+            <div class="digit-column">
+                <button class="btn btn-adjust" data-type="hour" data-delta="1" onclick="adjust('hour', 1)">▲</button>
+                <div class="digit" id="hours">08</div>
+                <button class="btn btn-adjust" data-type="hour" data-delta="-1" onclick="adjust('hour', -1)">▼</button>
+            </div>
+            <div class="digit-column">
+                <button class="btn btn-adjust" data-type="min" data-delta="1" onclick="adjust('min', 1)">▲</button>
+                <div class="digit" id="minutes">00</div>
+                <button class="btn btn-adjust" data-type="min" data-delta="-1" onclick="adjust('min', -1)">▼</button>
+            </div>
+        </div>
+
+        <div id="messageBox" class="message-box hidden">
+            <span id="messageText"></span>
+        </div>
+        
+        <button id="action-btn" class="btn btn-action" onclick="handleActionButtonClick()">PRÍCHOD</button>
+
+        <div class="action-buttons-bar">
+            <button class="btn btn-now" onclick="setNow()"><div>⏰</div>TERAZ</button>
+            <button id="btn-skip" class="btn btn-skip" onclick="skipBreak()"><div>⏭️</div>Preskočiť</button>
+            <button id="btn-back" class="btn btn-back" onclick="handleBackClick()"><div>↩️</div>Späť</button>
+        </div>
+        
+        <div id="departureBlock">
+            <div id="departureTimeLabel">Odchod</div>
+            <div id="departureTime">--:--</div>
+        </div>
+
+        <!-- LIVE STATS CARDS -->
+        <div id="liveStats" style="display: none;">
+            <div class="stat-card">
+                <div class="stat-label">⏱️ V práci</div>
+                <div class="stat-value" id="liveWorkedTime">--</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">⏳ Zostáva</div>
+                <div class="stat-value" id="liveRemainingTime">--</div>
+            </div>
+        </div>
+
+        <!-- SUMÁR (po odchode) -->
+        <div id="daySummary" style="display: none;">
+            <div class="summary-card">
+                <div class="summary-title">📊 Sumár dňa</div>
+                <div class="summary-row">
+                    <span>Príchod:</span>
+                    <span id="summaryArrival">--</span>
+                </div>
+                <div class="summary-row">
+                    <span>Odchod:</span>
+                    <span id="summaryDeparture">--</span>
+                </div>
+                <div class="summary-row">
+                    <span>Prestávka:</span>
+                    <span id="summaryBreak">--</span>
+                </div>
+                <div class="summary-divider"></div>
+                <div class="summary-row summary-total">
+                    <span>Celkom v práci:</span>
+                    <span id="summaryTotal">--</span>
+                </div>
+                <div class="summary-row" id="summaryDeficit">
+                    <span>Deficit/Prebytok:</span>
+                    <span id="summaryDiff">--</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- TABUĽKA INFO DOLE -->
+        <table class="info-table">
+            <tr><th>Udalosť</th><th>Čas</th></tr>
+        </table>
+
+        <button id="theme-toggle" class="btn btn-theme" onclick="toggleTheme()">☀️ Svetlá</button>
+    </div>
+
+    <script type="application/javascript" src="script.js" defer></script>
+</body>
+
+</html>
