@@ -1,107 +1,327 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="sk">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-    <meta name="theme-color" content="#1a1a2e">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+    <meta name="theme-color" content="#1a1a2e" />
     <title>Príchod/Odchod</title>
-    <link rel="manifest" href="manifest.json">
-    <link rel="stylesheet" href="styles.css">
-</head>
+    <link rel="manifest" href="manifest.json" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
 
-<body>
+  <body>
     <div class="container">
-         <!-- LIVE TIME HEADER (NEW) -->
-        <div class="live-time-header">
-            <div class="live-time" id="liveTime">08:00:00</div>
-            <div class="live-date" id="liveDate">Piatok, 5. December 2025</div>
-        </div>
+      <!-- LIVE TIME HEADER — visible on all cards -->
+      <div class="live-time-header" aria-live="off">
+        <div class="live-time" id="liveTime">08:00:00</div>
+        <div class="live-date" id="liveDate">Piatok, 5. December 2025</div>
+      </div>
 
+      <nav class="tab-bar" role="tablist" aria-label="Karty">
+        <button
+          type="button"
+          id="tab-day"
+          class="tab-btn is-active"
+          role="tab"
+          aria-selected="true"
+          aria-controls="panel-day"
+          data-tab="day"
+        >
+          Deň
+        </button>
+        <button
+          type="button"
+          id="tab-settings"
+          class="tab-btn"
+          role="tab"
+          aria-selected="false"
+          aria-controls="panel-settings"
+          data-tab="settings"
+        >
+          Nastavenia
+        </button>
+        <button
+          type="button"
+          id="tab-data"
+          class="tab-btn"
+          role="tab"
+          aria-selected="false"
+          aria-controls="panel-data"
+          data-tab="data"
+        >
+          Dáta
+        </button>
+      </nav>
+
+      <div
+        id="messageBox"
+        class="message-box hidden"
+        role="alert"
+        aria-live="assertive"
+      >
+        <span id="messageText"></span>
+      </div>
+
+      <section
+        id="panel-day"
+        class="tab-panel is-active"
+        role="tabpanel"
+        aria-labelledby="tab-day"
+      >
         <!-- FLIP CLOCK -->
         <div class="clock-container">
-            <div class="digit-column">
-                <button class="btn btn-adjust" data-type="hour" data-delta="1" onclick="adjust('hour', 1)">▲</button>
-                <div class="digit" id="hours">08</div>
-                <button class="btn btn-adjust" data-type="hour" data-delta="-1" onclick="adjust('hour', -1)">▼</button>
-            </div>
-            <div class="digit-column">
-                <button class="btn btn-adjust" data-type="min" data-delta="1" onclick="adjust('min', 1)">▲</button>
-                <div class="digit" id="minutes">00</div>
-                <button class="btn btn-adjust" data-type="min" data-delta="-1" onclick="adjust('min', -1)">▼</button>
-            </div>
+          <div class="digit-column">
+            <button
+              class="btn btn-adjust"
+              data-type="hour"
+              data-delta="1"
+              aria-label="Pridať hodinu"
+            >
+              ▲
+            </button>
+            <input
+              class="digit"
+              id="hours"
+              type="number"
+              readonly
+              aria-label="Hodiny"
+              min="0"
+              max="23"
+              value="08"
+            />
+            <button
+              class="btn btn-adjust"
+              data-type="hour"
+              data-delta="-1"
+              aria-label="Odobrať hodinu"
+            >
+              ▼
+            </button>
+          </div>
+          <div class="digit-column">
+            <button
+              class="btn btn-adjust"
+              data-type="min"
+              data-delta="1"
+              aria-label="Pridať minútu"
+            >
+              ▲
+            </button>
+            <input
+              class="digit"
+              id="minutes"
+              type="number"
+              readonly
+              aria-label="Minúty"
+              min="0"
+              max="59"
+              value="00"
+            />
+            <button
+              class="btn btn-adjust"
+              data-type="min"
+              data-delta="-1"
+              aria-label="Odobrať minútu"
+            >
+              ▼
+            </button>
+          </div>
         </div>
 
-        <div id="messageBox" class="message-box hidden">
-            <span id="messageText"></span>
-        </div>
-        
-        <button id="action-btn" class="btn btn-action" onclick="handleActionButtonClick()">PRÍCHOD</button>
+        <button id="action-btn" class="btn btn-action">PRÍCHOD</button>
 
         <div class="action-buttons-bar">
-            <button class="btn btn-now" onclick="setNow()"><div>⏰</div>TERAZ</button>
-            <button id="btn-skip" class="btn btn-skip" onclick="skipBreak()"><div>⏭️</div>Preskočiť</button>
-            <button id="btn-back" class="btn btn-back" onclick="handleBackClick()"><div>↩️</div>Späť</button>
+          <button id="btn-now" class="btn btn-now">
+            <div aria-hidden="true">⏰</div>
+            TERAZ
+          </button>
+          <button id="btn-skip" class="btn btn-skip">
+            <div aria-hidden="true">⏭️</div>
+            Preskočiť
+          </button>
+          <button
+            id="btn-ho"
+            class="btn btn-ho"
+            type="button"
+            aria-label="Home office"
+          >
+            <div aria-hidden="true">🏠</div>
+            HO
+          </button>
+          <button id="btn-back" class="btn btn-back">
+            <div aria-hidden="true">↩️</div>
+            Späť
+          </button>
         </div>
-        
+
         <div id="departureBlock">
-            <div id="departureTimeLabel">Odchod</div>
-            <div id="departureTime">--:--</div>
+          <div id="departureTimeLabel">Odchod</div>
+          <div id="departureTime">--:--</div>
         </div>
 
         <!-- LIVE STATS CARDS -->
-        <div id="liveStats" style="display: none;">
-            <div class="stat-card">
-                <div class="stat-label">⏱️ V práci</div>
-                <div class="stat-value" id="liveWorkedTime">--</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">⏳ Zostáva</div>
-                <div class="stat-value" id="liveRemainingTime">--</div>
-            </div>
+        <div id="liveStats" style="display: none">
+          <div class="stat-card">
+            <div class="stat-label">⏱️ V práci</div>
+            <div class="stat-value" id="liveWorkedTime">--</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">⏳ Zostáva</div>
+            <div class="stat-value" id="liveRemainingTime">--</div>
+          </div>
         </div>
 
         <!-- SUMÁR (po odchode) -->
-        <div id="daySummary" style="display: none;">
-            <div class="summary-card">
-                <div class="summary-title">📊 Sumár dňa</div>
-                <div class="summary-row">
-                    <span>Príchod:</span>
-                    <span id="summaryArrival">--</span>
-                </div>
-                <div class="summary-row">
-                    <span>Odchod:</span>
-                    <span id="summaryDeparture">--</span>
-                </div>
-                <div class="summary-row">
-                    <span>Prestávka:</span>
-                    <span id="summaryBreak">--</span>
-                </div>
-                <div class="summary-divider"></div>
-                <div class="summary-row summary-total">
-                    <span>Celkom v práci:</span>
-                    <span id="summaryTotal">--</span>
-                </div>
-                <div class="summary-row" id="summaryDeficit">
-                    <span>Deficit/Prebytok:</span>
-                    <span id="summaryDiff">--</span>
-                </div>
+        <div id="daySummary" style="display: none">
+          <div class="summary-card">
+            <div class="summary-title">📊 Sumár dňa</div>
+            <div class="summary-row">
+              <span>Príchod:</span>
+              <span id="summaryArrival">--</span>
             </div>
+            <div class="summary-row">
+              <span>Odchod:</span>
+              <span id="summaryDeparture">--</span>
+            </div>
+            <div class="summary-row">
+              <span>Prestávka:</span>
+              <span id="summaryBreak">--</span>
+            </div>
+            <div class="summary-divider"></div>
+            <div class="summary-row summary-total">
+              <span>Celkom v práci:</span>
+              <span id="summaryTotal">--</span>
+            </div>
+            <div class="summary-row" id="summaryDeficit">
+              <span>Deficit/Prebytok:</span>
+              <span id="summaryDiff">--</span>
+            </div>
+          </div>
         </div>
 
-        <!-- TABUĽKA INFO DOLE -->
-        <table class="info-table">
-            <tr><th>Udalosť</th><th>Čas</th></tr>
-        </table>
+        <section class="week-calendar" aria-label="Týždeň">
+          <div class="week-nav">
+            <button
+              type="button"
+              id="week-prev"
+              class="btn btn-week-nav"
+              aria-label="Predchádzajúci týždeň"
+            >
+              ◀
+            </button>
+            <p id="week-label" class="week-label"></p>
+            <button
+              type="button"
+              id="week-next"
+              class="btn btn-week-nav"
+              aria-label="Ďalší týždeň"
+            >
+              ▶
+            </button>
+          </div>
+          <table class="week-table">
+            <thead>
+              <tr>
+                <th>Deň</th>
+                <th>Príchod</th>
+                <th>Odchod</th>
+              </tr>
+            </thead>
+            <tbody id="week-days"></tbody>
+          </table>
+          <p id="week-total" class="week-total"></p>
+        </section>
 
-        <button id="theme-toggle" class="btn btn-theme" onclick="toggleTheme()">☀️ Svetlá</button>
+        <button id="theme-toggle" class="btn btn-theme">☀️ Svetlá</button>
+      </section>
+
+      <section
+        id="panel-settings"
+        class="tab-panel"
+        role="tabpanel"
+        aria-labelledby="tab-settings"
+        hidden
+      >
+        <form id="settings-form" class="settings-form">
+          <h2 class="panel-title">Nastavenia dňa</h2>
+          <p class="settings-hint">
+            Neplatná hodnota sa vráti na predvoľbu (8 h, 30 min, 15:00).
+            Prestávka 0 = bez prestávky. Záznamy dní sa nemenia.
+          </p>
+
+          <label class="settings-field">
+            <span>Pracovný fond (hodiny)</span>
+            <input
+              id="setting-work-hours"
+              type="number"
+              inputmode="numeric"
+              min="1"
+              max="23"
+              step="1"
+              required
+            />
+          </label>
+
+          <label class="settings-field">
+            <span>Fixná prestávka (minúty)</span>
+            <input
+              id="setting-break-minutes"
+              type="number"
+              inputmode="numeric"
+              min="0"
+              max="120"
+              step="1"
+              required
+            />
+          </label>
+
+          <label class="settings-field">
+            <span>Najskorší odchod</span>
+            <input id="setting-earliest" type="time" required />
+            <small>00:00 vypne podlahu — odchod hneď po fonde.</small>
+          </label>
+
+          <label class="settings-check">
+            <input id="setting-actual-break" type="checkbox" />
+            <span>Počítať skutočnú dĺžku prestávky</span>
+          </label>
+
+          <button type="submit" class="btn btn-action" id="settings-save">
+            Uložiť
+          </button>
+        </form>
+      </section>
+
+      <section
+        id="panel-data"
+        class="tab-panel"
+        role="tabpanel"
+        aria-labelledby="tab-data"
+        hidden
+      >
+        <h2 class="panel-title">Dáta</h2>
+        <p class="settings-hint">
+          Záloha histórie do súboru. Nič sa nemaže ani neprepisuje.
+        </p>
+        <p class="data-count">
+          Dní v histórii: <strong id="data-day-count">0</strong>
+        </p>
+        <button type="button" id="btn-export" class="btn btn-action">
+          Exportovať JSON
+        </button>
+      </section>
     </div>
 
-    <script type="application/javascript" src="script.js" defer></script>
-</body>
-
+    <script type="module" src="scripts/main.js"></script>
+  </body>
 </html>

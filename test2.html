@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="sk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#1a1a2e" />
+    <title>Týždeň — layout 2</title>
+    <style>
+      :root {
+        --border-radius: 0.85rem;
+        --primary: oklch(25% 0.05 260);
+        --primary-darker: oklch(20% 0.06 260);
+        --secondary: oklch(75% 0.2 160);
+        --accent-success: oklch(85% 0.15 150);
+        --surface: rgba(255 255 255 / 0.1);
+        --border-light: rgba(255 255 255 / 0.15);
+        --text-primary: #fff;
+        --text-secondary: oklch(65% 0.02 260);
+        --text-accent: var(--secondary);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: system-ui, -apple-system, sans-serif;
+        color: var(--text-primary);
+        background: linear-gradient(135deg, var(--primary), var(--primary-darker));
+        padding: 1rem 0.75rem 2rem;
+      }
+      .wrap {
+        max-width: 390px;
+        margin: 0 auto;
+      }
+      .switch {
+        display: flex;
+        gap: 0.4rem;
+        margin-bottom: 1rem;
+      }
+      .switch a {
+        flex: 1;
+        text-align: center;
+        padding: 0.65rem 0.3rem;
+        border-radius: 0.5rem;
+        text-decoration: none;
+        color: var(--text-secondary);
+        border: 1px solid var(--border-light);
+        font-size: 0.8rem;
+        font-weight: 700;
+      }
+      .switch a.is-on {
+        color: var(--text-accent);
+        background: var(--surface);
+      }
+      .ghost {
+        opacity: 0.35;
+        text-align: center;
+        font-size: 0.75rem;
+        margin: 0 0 0.75rem;
+        letter-spacing: 0.04em;
+      }
+      .week-nav {
+        display: grid;
+        grid-template-columns: 2.75rem 1fr 2.75rem;
+        align-items: center;
+        margin-bottom: 0.5rem;
+      }
+      .week-nav button {
+        min-height: 2.5rem;
+        border: 1px solid var(--border-light);
+        background: var(--surface);
+        color: #fff;
+        border-radius: 0.5rem;
+      }
+      .week-label {
+        text-align: center;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--text-accent);
+      }
+      .day {
+        display: grid;
+        grid-template-columns: 4.6rem 1fr;
+        gap: 0.15rem 0.5rem;
+        padding: 0.55rem 0.15rem;
+        border-bottom: 1px solid var(--border-light);
+        align-items: start;
+      }
+      .name {
+        font-weight: 600;
+        color: var(--text-secondary);
+        font-size: 0.85rem;
+        padding-top: 0.1rem;
+      }
+      .ho {
+        display: block;
+        font-size: 0.65rem;
+        color: var(--text-accent);
+        font-weight: 700;
+      }
+      .flow {
+        font-variant-numeric: tabular-nums;
+        font-family: ui-monospace, monospace, sans-serif;
+        font-size: 0.82rem;
+        line-height: 1.35;
+      }
+      .break {
+        color: var(--text-secondary);
+      }
+      .arrow {
+        color: var(--text-secondary);
+        padding: 0 0.15rem;
+      }
+      .worked {
+        grid-column: 2;
+        font-style: italic;
+        font-size: 0.78rem;
+        color: var(--text-accent);
+        font-weight: 600;
+      }
+      .muted {
+        color: var(--text-secondary);
+      }
+      .total {
+        margin: 0.7rem 0 0;
+        text-align: right;
+        font-weight: 700;
+        color: var(--text-accent);
+      }
+      .total span {
+        color: var(--accent-success);
+      }
+      .note {
+        margin-top: 1.25rem;
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+        line-height: 1.45;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <nav class="switch">
+        <a href="test1.html">1 · dva riadky</a>
+        <a class="is-on" href="test2.html">2 · os</a>
+        <a href="test3.html">3 · tri časy</a>
+      </nav>
+      <p class="ghost">ovládače dňa (príchod / HO / skip) — ostávajú hore</p>
+
+      <div class="week-nav">
+        <button type="button">◀</button>
+        <p class="week-label">24. – 30. august</p>
+        <button type="button">▶</button>
+      </div>
+
+      <div class="day">
+        <div class="name">Po 24.</div>
+        <div class="flow">06:12<span class="arrow">→</span><span class="break">11:20–12:05</span><span class="arrow">→</span>15:00</div>
+        <div class="worked">8h 18m</div>
+      </div>
+      <div class="day">
+        <div class="name">Ut 25. <span class="ho">HO</span></div>
+        <div class="flow">08:00<span class="arrow">→</span><span class="break">12:00–12:30</span><span class="arrow">→</span>16:30</div>
+        <div class="worked">8h 0m</div>
+      </div>
+      <div class="day">
+        <div class="name">St 26.</div>
+        <div class="flow">06:05<span class="arrow">→</span><span class="break">12:00–12:40</span><span class="arrow">→</span>15:00</div>
+        <div class="worked">8h 25m</div>
+      </div>
+      <div class="day">
+        <div class="name">Št 27. <span class="ho">HO</span></div>
+        <div class="flow">08:00<span class="arrow">→</span><span class="break">12:00–12:30</span><span class="arrow">→</span>16:30</div>
+        <div class="worked">8h 0m</div>
+      </div>
+      <div class="day">
+        <div class="name">Pi 28.</div>
+        <div class="flow">06:17<span class="arrow">→</span><span class="break">12:15–13:00</span><span class="arrow">→</span>15:00</div>
+        <div class="worked">8h 13m</div>
+      </div>
+      <div class="day">
+        <div class="name">So 29.</div>
+        <div class="flow muted">—</div>
+      </div>
+      <div class="day">
+        <div class="name">Ne 30.</div>
+        <div class="flow muted">—</div>
+      </div>
+
+      <p class="total">Týždeň: 40h 56m <span>(+0h 56m)</span></p>
+      <p class="note">
+        Layout 2 — deň ako časová os: príchod → prestávka → odchod. „V práci“
+        pod osou, kurzívou. Číta sa zľava doprava ako zmena. Na úzkom displeji
+        môže os zalamovať (prestávka je najdlhší kus).
+      </p>
+    </div>
+  </body>
+</html>
